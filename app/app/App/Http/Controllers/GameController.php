@@ -50,41 +50,17 @@ class GameController extends Controller
         // remove spaces and line breaks ;)
         // =============================================================================================================
 
-        if (    // Check the first row
-            $game->getRow(0)->getSpace( 0 ) === $game->getRow(0)->getSpace( 1 ) &&
-            $game->getRow(0)->getSpace( 0 ) === $game->getRow(0)->getSpace( 2 ) &&
-            $game->getRow(0)->getSpace( 0 ) !== GameMark::None
-        ) return true;
-
-        if (    // Check the second row
-            $game->getRow(1)->getSpace( 0 ) === $game->getRow(1)->getSpace( 1 ) &&
-            $game->getRow(1)->getSpace( 0 ) === $game->getRow(1)->getSpace( 2 ) &&
-            $game->getRow(1)->getSpace( 0 ) !== GameMark::None
-        ) return true;
-
-        if (    // Check the third row
-            $game->getRow(2)->getSpace( 0 ) === $game->getRow(2)->getSpace( 1 ) &&
-            $game->getRow(2)->getSpace( 0 ) === $game->getRow(2)->getSpace( 2 ) &&
-            $game->getRow(2)->getSpace( 0 ) !== GameMark::None
-        ) return true;
-
-        if (    // Check the first column
-            $game->getColumn(0)->getSpace( 0 ) === $game->getColumn(0)->getSpace( 1 ) &&
-            $game->getColumn(0)->getSpace( 0 ) === $game->getColumn(0)->getSpace( 2 ) &&
-            $game->getColumn(0)->getSpace( 0 ) !== GameMark::None
-        ) return true;
-
-        if (    // Check the second column
-            $game->getColumn(1)->getSpace( 0 ) === $game->getColumn(1)->getSpace( 1 ) &&
-            $game->getColumn(1)->getSpace( 0 ) === $game->getColumn(1)->getSpace( 2 ) &&
-            $game->getColumn(1)->getSpace( 0 ) !== GameMark::None
-        ) return true;
-
-        if (    // Check the third column
-            $game->getColumn(2)->getSpace( 0 ) === $game->getColumn(2)->getSpace( 1 ) &&
-            $game->getColumn(2)->getSpace( 0 ) === $game->getColumn(2)->getSpace( 2 ) &&
-            $game->getColumn(2)->getSpace( 0 ) !== GameMark::None
-        ) return true;
+        for ($i = 0; $i < 3; $i++) { //I have used a loop here so that you don't have to go through the rows and lines from 0 to 2
+            if (
+                ($game->getRow($i)->getSpace(0) === $game->getRow($i)->getSpace(1) &&
+                $game->getRow($i)->getSpace(0) === $game->getRow($i)->getSpace(2) &&
+                $game->getRow($i)->getSpace(0) !== GameMark::None) ||
+                ($game->getColumn($i)->getSpace(0) === $game->getColumn($i)->getSpace(1) &&
+                $game->getColumn($i)->getSpace(0) === $game->getColumn($i)->getSpace(2) &&
+                $game->getColumn($i)->getSpace(0) !== GameMark::None)
+            ) 
+                return true;
+            }
 
         if (    // Check the main diagonal
             $game->getMainDiagonal(0)->getSpace( 0 ) === $game->getMainDiagonal(0)->getSpace( 1 ) &&
@@ -108,8 +84,12 @@ class GameController extends Controller
         // This function needs to return null if nobody has won yet - you can use someoneHasWon( $game ) for this.
         // If someone has won, it needs to return either GamePlayer::Human or GamePlayer::Robot.
         // =============================================================================================================
-
+        
+        
+    
+            
         return null;
+        
     }
 
     /**
@@ -183,9 +163,6 @@ class GameController extends Controller
         // [ The code to check if the space is free goes here ]
         if ($game->getSpace($x, $y) !== GameMark::None) 
             
-            
-            
-
         // If the space is not free, run the code in the line below by removing the //
         return response("This space has already been claimed!")->setStatusCode(403)->header('Content-Type', 'text/plain');
         
