@@ -84,10 +84,17 @@ class GameController extends Controller
         // This function needs to return null if nobody has won yet - you can use someoneHasWon( $game ) for this.
         // If someone has won, it needs to return either GamePlayer::Human or GamePlayer::Robot.
         // =============================================================================================================
+        if ($this->someoneHasWon($game)) {
         
+            foreach ([GamePlayer::Human, GamePlayer::Robot] as $winner) {
         
-    
-            
+                if ($game->getLastPlayer() === $winner) {
+                    return GamePlayer::Human;
+                } else {
+                    return GamePlayer::Robot;
+                }
+            }
+        }
         return null;
         
     }
